@@ -28,7 +28,7 @@ urlFragment: aks-api-server-vnet-integration-bicep
 azureDeploy: "https://raw.githubusercontent.com/Azure-Samples/aks-api-server-vnet-integration-bicep/main/bicep/azuredeploy.json"
 ---
 
-# Deploy an AKS cluster with API Server VNET Integration using Bicep
+# Create an AKS cluster with API Server VNET Integration using Bicep
 
 This article plus sample shows how to deploy an [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes) (AKS) cluster with [API Server VNET Integration](https://learn.microsoft.com/en-us/azure/aks/api-server-vnet-integration). AKS clusters with API Server VNET integration provides a series of advantages, for example they can have public network access or private cluster mode enabled or disabled without redeploying the cluster.
 
