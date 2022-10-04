@@ -282,9 +282,17 @@ az aks update -n <cluster-name> \
 
 ## Deploy the Bicep modules
 
-You can deploy the Bicep modules in the `bicep` folder using the `deploy.sh` Bash script in the same folder.
+You can deploy the Bicep modules in the `bicep` folder using the `deploy.sh` Bash script in the same folder. Make sure to specify a value for the following parameters in the `deploy.sh` script and `main.parameters.json` parameters file before deploying the Bicep modules.
 
-### Azure CLI
+- `prefix`: specifies a prefix for the AKS cluster and other Azure resources.
+- `authenticationType`: specifies the type of authentication when accessing the Virtual Machine. `sshPublicKey` is the recommended value. Allowed values: `sshPublicKey` and `password`.
+- `vmAdminUsername`: specifies the name of the administrator account of the virtual machine.
+- `vmAdminPasswordOrKey`: specifies the SSH Key or password for the virtual machine.
+- `aksClusterSshPublicKey`:  specifies the SSH Key or password for AKS cluster agent nodes.
+- `aadProfileAdminGroupObjectIDs`: when deploying an AKS cluster with Azure AD and Azure RBAC integration, this array parameter contains the list of Azure AD group object IDs that will have admin role of the cluster.
+- `keyVaultObjectIds`: Specifies the object ID of the service principals to configure in Key Vault access policies.
+
+We suggest reading sensitive configuration data such as passwords or SSH keys from a pre-existing Azure Key Vault resource. For more information, see [Use Azure Key Vault to pass secure parameter value during Bicep deployment](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/key-vault-parameter?tabs=azure-cli).
 
 ```bash
 #!/bin/bash
@@ -675,19 +683,6 @@ else
     fi
 fi
 ```
-
-> **NOTE**  
-> Make sure to specify a value for the following parameters in the `deploy.sh` script and `main.parameters.json` parameters file:
->
-> - `prefix`: specifies a prefix for the AKS cluster and other Azure resources.
-> - `authenticationType`: specifies the type of authentication when accessing the Virtual Machine. `sshPublicKey` is the recommended value. Allowed values: `sshPublicKey` and `password`.
-> - `vmAdminUsername`: specifies the name of the administrator account of the virtual machine.
-> - `vmAdminPasswordOrKey`: specifies the SSH Key or password for the virtual machine.
-> - `aksClusterSshPublicKey`:  specifies the SSH Key or password for AKS cluster agent nodes.
-> - `aadProfileAdminGroupObjectIDs`: when deploying an AKS cluster with Azure AD and Azure RBAC integration, this array parameter contains the list of Azure AD group object IDs that will have admin role of the cluster.
-> - `keyVaultObjectIds`: Specifies the object ID of the service principals to configure in Key Vault access policies.
->
-> We suggest reading sensitive configuration data such as passwords or SSH keys from a pre-existing Azure Key Vault resource. For more information, see [Use Azure Key Vault to pass secure parameter value during Bicep deployment](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/key-vault-parameter?tabs=azure-cli).
 
 ## Review deployed resources
 
