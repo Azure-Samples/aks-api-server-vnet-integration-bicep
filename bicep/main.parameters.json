@@ -202,6 +202,36 @@
     },
     "deploymentScriptUri": {
       "value": "https://paolosalvatori.blob.core.windows.net/scripts/install-helm-charts.sh"
+    },
+    "blobCSIDriverEnabled":{
+      "value": true
+    },
+    "diskCSIDriverEnabled":{
+      "value": true
+    },
+    "fileCSIDriverEnabled":{
+      "value": true
+    },
+    "snapshotControllerEnabled":{
+      "value": true
+    },
+    "defenderSecurityMonitoringEnabled":{
+      "value": true
+    },
+    "imageCleanerEnabled":{
+      "value": true
+    },
+    "imageCleanerIntervalHours":{
+      "value": 24
+    },
+    "nodeRestrictionEnabled":{
+      "value": false
+    },
+    "workloadIdentityEnabled":{
+      "value": true
+    },
+    "oidcIssuerProfileEnabled":{
+      "value": true
     }
   }
 }

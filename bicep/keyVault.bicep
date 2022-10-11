@@ -34,12 +34,6 @@ param enableSoftDelete bool = true
 @description('Specifies the object ID ofthe service principals to configure in Key Vault access policies.')
 param objectIds array = []
 
-@description('Specifies whether to create secrets.')
-param createSecrets bool = true
-
-@description('Specifies a list of secrets.')
-param secrets array = []
-
 @description('Specifies the resource id of the Log Analytics workspace.')
 param workspaceId string
 
@@ -117,14 +111,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-10-01' = {
     enableSoftDelete: enableSoftDelete
   }
 }
-
-resource secret 'Microsoft.KeyVault/vaults/secrets@2021-11-01-preview' = [for secret in secrets: if (createSecrets) {
-  parent: keyVault
-  name: secret.name
-  properties: {
-    value: secret.value
-  }
-}]
 
 resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: diagnosticSettingsName
