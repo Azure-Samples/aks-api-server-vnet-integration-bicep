@@ -9,7 +9,8 @@ aksPrefix="<cluster-name-prefix>"
 aksName="${aksPrefix}Aks"
 validateTemplate=1
 useWhatIf=1
-installExtensions=0
+update=1
+installExtensions=1
 
 # Name and location of the resource group for the Azure Kubernetes Service (AKS) cluster
 aksResourceGroupName="${aksPrefix}RG"
@@ -58,7 +59,18 @@ if [[ $installExtensions == 1 ]]; then
   fi
 
   # Registering AKS feature extensions
-  aksExtensions=("PodSecurityPolicyPreview" "KubeletDisk" "AKS-KedaPreview" "RunCommandPreview" "EnablePodIdentityPreview " "UserAssignedIdentityPreview" "EnablePrivateClusterPublicFQDN" "PodSubnetPreview" "EnableOIDCIssuerPreview")
+      aksExtensions=(
+    "PodSecurityPolicyPreview"
+    "KubeletDisk"
+    "AKS-KedaPreview"
+    "RunCommandPreview"
+    "EnablePodIdentityPreview "
+    "UserAssignedIdentityPreview"
+    "EnablePrivateClusterPublicFQDN"
+    "PodSubnetPreview"
+    "EnableOIDCIssuerPreview"
+    "EnableWorkloadIdentityPreview"
+    "EnableImageCleanerPreview")
   ok=0
   registeringExtensions=()
   for aksExtension in ${aksExtensions[@]}; do
@@ -133,9 +145,15 @@ fi
 echo "Checking if [$aksName] aks cluster actually exists in the [$aksResourceGroupName] resource group..."
 
 az aks show --name $aksName --resource-group $aksResourceGroupName &>/dev/null
+notExists=$?
 
-if [[ $? != 0 ]]; then
-  echo "No [$aksName] aks cluster actually exists in the [$aksResourceGroupName] resource group"
+if [[ $notExists != 0 || $update == 1 ]]; then
+
+  if [[ $notExists != 0 ]]; then
+    echo "No [$aksName] aks cluster actually exists in the [$aksResourceGroupName] resource group"
+  else
+    echo "[$aksName] aks cluster already exists in the [$aksResourceGroupName] resource group. Updating the cluster..."
+  fi
 
   # Delete any existing role assignments for the user-defined managed identity of the AKS cluster
   # in case you are re-deploying the solution in an existing resource group

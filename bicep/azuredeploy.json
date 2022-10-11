@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.9.1.41621",
-      "templateHash": "17958213617978437995"
+      "version": "0.11.1.770",
+      "templateHash": "10608958852731515251"
     }
   },
   "parameters": {
@@ -567,13 +567,6 @@
         "description": "Specifies whether the pod identity addon is enabled.."
       }
     },
-    "oidcIssuerProfileEnabled": {
-      "type": "bool",
-      "defaultValue": true,
-      "metadata": {
-        "description": "Specifies whether the OIDC issuer is enabled."
-      }
-    },
     "autoScalerProfileScanInterval": {
       "type": "string",
       "defaultValue": "10s",
@@ -677,6 +670,76 @@
       "defaultValue": "10.1.0.0/16",
       "metadata": {
         "description": "Specifies the address prefix of the subnet hosting the worker nodes of the user agent pool of the AKS cluster."
+      }
+    },
+    "blobCSIDriverEnabled": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Specifies whether to enable the Azure Blob CSI Driver. The default value is false."
+      }
+    },
+    "diskCSIDriverEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether to enable the Azure Disk CSI Driver. The default value is true."
+      }
+    },
+    "fileCSIDriverEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether to enable the Azure File CSI Driver. The default value is true."
+      }
+    },
+    "snapshotControllerEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether to enable the Snapshot Controller. The default value is true."
+      }
+    },
+    "defenderSecurityMonitoringEnabled": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Specifies whether to enable Defender threat detection. The default value is false."
+      }
+    },
+    "imageCleanerEnabled": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Specifies whether to enable ImageCleaner on AKS cluster. The default value is false."
+      }
+    },
+    "imageCleanerIntervalHours": {
+      "type": "int",
+      "defaultValue": 24,
+      "metadata": {
+        "description": "Specifies whether ImageCleaner scanning interval in hours."
+      }
+    },
+    "nodeRestrictionEnabled": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Specifies whether to enable Node Restriction. The default value is false."
+      }
+    },
+    "workloadIdentityEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether to enable Workload Identity. The default value is false."
+      }
+    },
+    "oidcIssuerProfileEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether the OIDC issuer is enabled."
       }
     },
     "podSubnetName": {
@@ -969,7 +1032,7 @@
       "type": "array",
       "defaultValue": [],
       "metadata": {
-        "description": "Speicifies the object ID ofthe service principals to configure in Key Vault access policies."
+        "description": "Specifies the object ID ofthe service principals to configure in Key Vault access policies."
       }
     },
     "tags": {
@@ -1048,8 +1111,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "12372556744685160343"
+              "version": "0.11.1.770",
+              "templateHash": "2149303420601102183"
             }
           },
           "parameters": {
@@ -1121,20 +1184,6 @@
               "defaultValue": [],
               "metadata": {
                 "description": "Specifies the object ID ofthe service principals to configure in Key Vault access policies."
-              }
-            },
-            "createSecrets": {
-              "type": "bool",
-              "defaultValue": true,
-              "metadata": {
-                "description": "Specifies whether to create secrets."
-              }
-            },
-            "secrets": {
-              "type": "array",
-              "defaultValue": [],
-              "metadata": {
-                "description": "Specifies a list of secrets."
               }
             },
             "workspaceId": {
@@ -1248,22 +1297,6 @@
               }
             },
             {
-              "condition": "[parameters('createSecrets')]",
-              "copy": {
-                "name": "secret",
-                "count": "[length(parameters('secrets'))]"
-              },
-              "type": "Microsoft.KeyVault/vaults/secrets",
-              "apiVersion": "2021-11-01-preview",
-              "name": "[format('{0}/{1}', parameters('name'), parameters('secrets')[copyIndex()].name)]",
-              "properties": {
-                "value": "[parameters('secrets')[copyIndex()].value]"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', parameters('name'))]"
-              ]
-            },
-            {
               "type": "Microsoft.Insights/diagnosticSettings",
               "apiVersion": "2021-05-01-preview",
               "scope": "[format('Microsoft.KeyVault/vaults/{0}', parameters('name'))]",
@@ -1326,8 +1359,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "3971235064931773501"
+              "version": "0.11.1.770",
+              "templateHash": "14314214094451204430"
             }
           },
           "parameters": {
@@ -1464,8 +1497,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "5299779637893184088"
+              "version": "0.11.1.770",
+              "templateHash": "7996882044334871195"
             }
           },
           "parameters": {
@@ -1649,8 +1682,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "17093361344355823333"
+              "version": "0.11.1.770",
+              "templateHash": "2439711520241842895"
             }
           },
           "parameters": {
@@ -1940,8 +1973,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "17838932360433960496"
+              "version": "0.11.1.770",
+              "templateHash": "9859878643810645614"
             }
           },
           "parameters": {
@@ -2458,7 +2491,15 @@
                     "properties": {
                       "addressPrefix": "[parameters('podSubnetAddressPrefix')]",
                       "privateEndpointNetworkPolicies": "Disabled",
-                      "privateLinkServiceNetworkPolicies": "Enabled"
+                      "privateLinkServiceNetworkPolicies": "Enabled",
+                      "delegations": [
+                        {
+                          "name": "aks-delegation",
+                          "properties": {
+                            "serviceName": "Microsoft.ContainerService/managedClusters"
+                          }
+                        }
+                      ]
                     }
                   },
                   {
@@ -2466,7 +2507,15 @@
                     "properties": {
                       "addressPrefix": "[parameters('apiServerSubnetAddressPrefix')]",
                       "privateEndpointNetworkPolicies": "Disabled",
-                      "privateLinkServiceNetworkPolicies": "Enabled"
+                      "privateLinkServiceNetworkPolicies": "Enabled",
+                      "delegations": [
+                        {
+                          "name": "aks-delegation",
+                          "properties": {
+                            "serviceName": "Microsoft.ContainerService/managedClusters"
+                          }
+                        }
+                      ]
                     }
                   },
                   {
@@ -2915,8 +2964,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "6637378335921262109"
+              "version": "0.11.1.770",
+              "templateHash": "8068255784764361138"
             }
           },
           "parameters": {
@@ -3243,8 +3292,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "4000141882990447945"
+              "version": "0.11.1.770",
+              "templateHash": "8768363382539483603"
             }
           },
           "parameters": {
@@ -3409,8 +3458,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "6444645117279859177"
+              "version": "0.11.1.770",
+              "templateHash": "3495719512990446450"
             }
           },
           "parameters": {
@@ -3667,12 +3716,6 @@
           "kubeDashboardEnabled": {
             "value": "[parameters('kubeDashboardEnabled')]"
           },
-          "podIdentityProfileEnabled": {
-            "value": "[parameters('podIdentityProfileEnabled')]"
-          },
-          "oidcIssuerProfileEnabled": {
-            "value": "[parameters('oidcIssuerProfileEnabled')]"
-          },
           "autoScalerProfileScanInterval": {
             "value": "[parameters('autoScalerProfileScanInterval')]"
           },
@@ -3697,6 +3740,39 @@
           "autoScalerProfileMaxGracefulTerminationSec": {
             "value": "[parameters('autoScalerProfileMaxGracefulTerminationSec')]"
           },
+          "blobCSIDriverEnabled": {
+            "value": "[parameters('blobCSIDriverEnabled')]"
+          },
+          "diskCSIDriverEnabled": {
+            "value": "[parameters('diskCSIDriverEnabled')]"
+          },
+          "fileCSIDriverEnabled": {
+            "value": "[parameters('fileCSIDriverEnabled')]"
+          },
+          "snapshotControllerEnabled": {
+            "value": "[parameters('snapshotControllerEnabled')]"
+          },
+          "defenderSecurityMonitoringEnabled": {
+            "value": "[parameters('defenderSecurityMonitoringEnabled')]"
+          },
+          "imageCleanerEnabled": {
+            "value": "[parameters('imageCleanerEnabled')]"
+          },
+          "imageCleanerIntervalHours": {
+            "value": "[parameters('imageCleanerIntervalHours')]"
+          },
+          "nodeRestrictionEnabled": {
+            "value": "[parameters('nodeRestrictionEnabled')]"
+          },
+          "workloadIdentityEnabled": {
+            "value": "[parameters('workloadIdentityEnabled')]"
+          },
+          "oidcIssuerProfileEnabled": {
+            "value": "[parameters('oidcIssuerProfileEnabled')]"
+          },
+          "podIdentityProfileEnabled": {
+            "value": "[parameters('podIdentityProfileEnabled')]"
+          },
           "retentionInDays": {
             "value": "[parameters('logAnalyticsRetentionInDays')]"
           },
@@ -3716,8 +3792,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "11681416094402975834"
+              "version": "0.11.1.770",
+              "templateHash": "40594748376744347"
             }
           },
           "parameters": {
@@ -4379,6 +4455,69 @@
               "metadata": {
                 "description": "Specifies the resource tags."
               }
+            },
+            "blobCSIDriverEnabled": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Specifies whether to enable the Azure Blob CSI Driver. The default value is false."
+              }
+            },
+            "diskCSIDriverEnabled": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Specifies whether to enable the Azure Disk CSI Driver. The default value is true."
+              }
+            },
+            "fileCSIDriverEnabled": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Specifies whether to enable the Azure File CSI Driver. The default value is true."
+              }
+            },
+            "snapshotControllerEnabled": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Specifies whether to enable the Snapshot Controller. The default value is true."
+              }
+            },
+            "defenderSecurityMonitoringEnabled": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Specifies whether to enable Defender threat detection. The default value is false."
+              }
+            },
+            "imageCleanerEnabled": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Specifies whether to enable ImageCleaner on AKS cluster. The default value is false."
+              }
+            },
+            "imageCleanerIntervalHours": {
+              "type": "int",
+              "defaultValue": 24,
+              "metadata": {
+                "description": "Specifies whether ImageCleaner scanning interval in hours."
+              }
+            },
+            "nodeRestrictionEnabled": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Specifies whether to enable Node Restriction. The default value is false."
+              }
+            },
+            "workloadIdentityEnabled": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Specifies whether to enable Workload Identity. The default value is false."
+              }
             }
           },
           "variables": {
@@ -4429,7 +4568,7 @@
           "resources": [
             {
               "type": "Microsoft.ContainerService/managedClusters",
-              "apiVersion": "2022-05-02-preview",
+              "apiVersion": "2022-07-02-preview",
               "name": "[parameters('name')]",
               "location": "[parameters('location')]",
               "tags": "[parameters('tags')]",
@@ -4580,6 +4719,38 @@
                   "privateDNSZone": "[if(parameters('enablePrivateCluster'), parameters('privateDNSZone'), json('null'))]",
                   "enablePrivateClusterPublicFQDN": "[parameters('enablePrivateClusterPublicFQDN')]",
                   "subnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('apiServerSubnetName'))]"
+                },
+                "securityProfile": {
+                  "defender": {
+                    "logAnalyticsWorkspaceResourceId": "[parameters('workspaceId')]",
+                    "securityMonitoring": {
+                      "enabled": "[parameters('defenderSecurityMonitoringEnabled')]"
+                    }
+                  },
+                  "imageCleaner": {
+                    "enabled": "[parameters('imageCleanerEnabled')]",
+                    "intervalHours": "[parameters('imageCleanerIntervalHours')]"
+                  },
+                  "nodeRestriction": {
+                    "enabled": "[parameters('nodeRestrictionEnabled')]"
+                  },
+                  "workloadIdentity": {
+                    "enabled": "[parameters('workloadIdentityEnabled')]"
+                  }
+                },
+                "storageProfile": {
+                  "blobCSIDriver": {
+                    "enabled": "[parameters('blobCSIDriverEnabled')]"
+                  },
+                  "diskCSIDriver": {
+                    "enabled": "[parameters('diskCSIDriverEnabled')]"
+                  },
+                  "fileCSIDriver": {
+                    "enabled": "[parameters('fileCSIDriverEnabled')]"
+                  },
+                  "snapshotController": {
+                    "enabled": "[parameters('snapshotControllerEnabled')]"
+                  }
                 }
               }
             },
@@ -4652,8 +4823,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "5455322826401675006"
+              "version": "0.11.1.770",
+              "templateHash": "4879268033772484810"
             }
           },
           "parameters": {
@@ -5468,8 +5639,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.9.1.41621",
-              "templateHash": "8424927791271743679"
+              "version": "0.11.1.770",
+              "templateHash": "1560992083982225351"
             }
           },
           "parameters": {

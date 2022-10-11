@@ -368,6 +368,14 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-08-01' = {
           addressPrefix: podSubnetAddressPrefix
           privateEndpointNetworkPolicies: 'Disabled'
           privateLinkServiceNetworkPolicies: 'Enabled'
+          delegations: [
+            {
+              name: 'aks-delegation'
+              properties: {
+                serviceName: 'Microsoft.ContainerService/managedClusters'
+              }
+            }
+          ]
         }
       }
       {
@@ -376,6 +384,14 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-08-01' = {
           addressPrefix: apiServerSubnetAddressPrefix
           privateEndpointNetworkPolicies: 'Disabled'
           privateLinkServiceNetworkPolicies: 'Enabled'
+          delegations: [
+            {
+              name: 'aks-delegation'
+              properties: {
+                serviceName: 'Microsoft.ContainerService/managedClusters'
+              }
+            }
+          ]
         }
       }
       {
@@ -441,7 +457,6 @@ resource bastionHost 'Microsoft.Network/bastionHosts@2021-08-01' = {
   }
 }
 
-
 // Private DNS Zones
 resource acrPrivateDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' = {
   name: 'privatelink.${toLower(environment().name) == 'azureusgovernment' ? 'azurecr.us' : 'azurecr.io'}'
@@ -460,7 +475,6 @@ resource keyVaultPrivateDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' =
   location: 'global'
   tags: tags
 }
-
 
 // Virtual Network Links
 resource acrPrivateDnsZoneVirtualNetworkLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {

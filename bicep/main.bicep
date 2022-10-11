@@ -285,9 +285,6 @@ param kubeDashboardEnabled bool = false
 @description('Specifies whether the pod identity addon is enabled..')
 param podIdentityProfileEnabled bool = false
 
-@description('Specifies whether the OIDC issuer is enabled.')
-param oidcIssuerProfileEnabled bool = true
-
 @description('Specifies the scan interval of the auto-scaler of the AKS cluster.')
 param autoScalerProfileScanInterval string = '10s'
 
@@ -332,6 +329,36 @@ param userAgentPoolSubnetName string = 'UserSubnet'
 
 @description('Specifies the address prefix of the subnet hosting the worker nodes of the user agent pool of the AKS cluster.')
 param userAgentPoolSubnetAddressPrefix string = '10.1.0.0/16'
+
+@description('Specifies whether to enable the Azure Blob CSI Driver. The default value is false.')
+param blobCSIDriverEnabled bool = false
+
+@description('Specifies whether to enable the Azure Disk CSI Driver. The default value is true.')
+param diskCSIDriverEnabled bool = true
+
+@description('Specifies whether to enable the Azure File CSI Driver. The default value is true.')
+param fileCSIDriverEnabled bool = true
+
+@description('Specifies whether to enable the Snapshot Controller. The default value is true.')
+param snapshotControllerEnabled bool = true
+
+@description('Specifies whether to enable Defender threat detection. The default value is false.')
+param defenderSecurityMonitoringEnabled bool = false
+
+@description('Specifies whether to enable ImageCleaner on AKS cluster. The default value is false.')
+param imageCleanerEnabled bool = false
+
+@description('Specifies whether ImageCleaner scanning interval in hours.')
+param imageCleanerIntervalHours int = 24
+
+@description('Specifies whether to enable Node Restriction. The default value is false.')
+param nodeRestrictionEnabled bool = false
+
+@description('Specifies whether to enable Workload Identity. The default value is false.')
+param workloadIdentityEnabled bool = true
+
+@description('Specifies whether the OIDC issuer is enabled.')
+param oidcIssuerProfileEnabled bool = true
 
 @description('Specifies the name of the subnet hosting the pods running in the AKS cluster.')
 param podSubnetName string = 'PodSubnet'
@@ -702,8 +729,6 @@ module aksCluster 'aksCluster.bicep' = {
     aciConnectorLinuxEnabled: aciConnectorLinuxEnabled
     azurePolicyEnabled: azurePolicyEnabled
     kubeDashboardEnabled: kubeDashboardEnabled
-    podIdentityProfileEnabled: podIdentityProfileEnabled
-    oidcIssuerProfileEnabled: oidcIssuerProfileEnabled
     autoScalerProfileScanInterval: autoScalerProfileScanInterval
     autoScalerProfileScaleDownDelayAfterAdd: autoScalerProfileScaleDownDelayAfterAdd
     autoScalerProfileScaleDownDelayAfterDelete: autoScalerProfileScaleDownDelayAfterDelete
@@ -712,6 +737,17 @@ module aksCluster 'aksCluster.bicep' = {
     autoScalerProfileScaleDownUnreadyTime: autoScalerProfileScaleDownUnreadyTime
     autoScalerProfileUtilizationThreshold: autoScalerProfileUtilizationThreshold
     autoScalerProfileMaxGracefulTerminationSec: autoScalerProfileMaxGracefulTerminationSec
+    blobCSIDriverEnabled: blobCSIDriverEnabled
+    diskCSIDriverEnabled: diskCSIDriverEnabled
+    fileCSIDriverEnabled: fileCSIDriverEnabled
+    snapshotControllerEnabled: snapshotControllerEnabled
+    defenderSecurityMonitoringEnabled: defenderSecurityMonitoringEnabled
+    imageCleanerEnabled: imageCleanerEnabled
+    imageCleanerIntervalHours: imageCleanerIntervalHours
+    nodeRestrictionEnabled: nodeRestrictionEnabled
+    workloadIdentityEnabled: workloadIdentityEnabled
+    oidcIssuerProfileEnabled: oidcIssuerProfileEnabled
+    podIdentityProfileEnabled: podIdentityProfileEnabled
     retentionInDays: logAnalyticsRetentionInDays
     workspaceId: workspace.outputs.id
     location: location

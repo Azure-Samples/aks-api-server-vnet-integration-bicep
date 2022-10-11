@@ -331,6 +331,33 @@ param location string = resourceGroup().location
 @description('Specifies the resource tags.')
 param tags object
 
+@description('Specifies whether to enable the Azure Blob CSI Driver. The default value is false.')
+param blobCSIDriverEnabled bool = false
+
+@description('Specifies whether to enable the Azure Disk CSI Driver. The default value is true.')
+param diskCSIDriverEnabled bool = true
+
+@description('Specifies whether to enable the Azure File CSI Driver. The default value is true.')
+param fileCSIDriverEnabled bool = true
+
+@description('Specifies whether to enable the Snapshot Controller. The default value is true.')
+param snapshotControllerEnabled bool = true
+
+@description('Specifies whether to enable Defender threat detection. The default value is false.')
+param defenderSecurityMonitoringEnabled bool = false
+
+@description('Specifies whether to enable ImageCleaner on AKS cluster. The default value is false.')
+param imageCleanerEnabled bool = false
+
+@description('Specifies whether ImageCleaner scanning interval in hours.')
+param imageCleanerIntervalHours int = 24
+
+@description('Specifies whether to enable Node Restriction. The default value is false.')
+param nodeRestrictionEnabled bool = false
+
+@description('Specifies whether to enable Workload Identity. The default value is false.')
+param workloadIdentityEnabled bool = false
+
 // Variables
 var diagnosticSettingsName = 'diagnosticSettings'
 var logCategories = [
@@ -395,7 +422,7 @@ resource apiServerSubnet 'Microsoft.Network/virtualNetworks/subnets@2021-08-01' 
   name: apiServerSubnetName
 }
 
-resource aksCluster 'Microsoft.ContainerService/managedClusters@2022-05-02-preview' = {
+resource aksCluster 'Microsoft.ContainerService/managedClusters@2022-07-02-preview' = {
   name: name
   location: location
   tags: tags
@@ -546,6 +573,38 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2022-05-02-previ
       privateDNSZone: enablePrivateCluster ? privateDNSZone : json('null')
       enablePrivateClusterPublicFQDN: enablePrivateClusterPublicFQDN
       subnetId: apiServerSubnet.id
+    }
+    securityProfile: {
+      defender: {
+        logAnalyticsWorkspaceResourceId: workspaceId
+        securityMonitoring: {
+          enabled: defenderSecurityMonitoringEnabled
+        }
+      }
+      imageCleaner: {
+        enabled: imageCleanerEnabled
+        intervalHours: imageCleanerIntervalHours
+      }
+      nodeRestriction: {
+        enabled: nodeRestrictionEnabled
+      }
+      workloadIdentity: {
+        enabled: workloadIdentityEnabled
+      }
+    }
+    storageProfile: {
+      blobCSIDriver: {
+        enabled: blobCSIDriverEnabled
+      }
+      diskCSIDriver: {
+        enabled: diskCSIDriverEnabled
+      }
+      fileCSIDriver: {
+        enabled: fileCSIDriverEnabled
+      }
+      snapshotController: {
+        enabled: snapshotControllerEnabled
+      }
     }
   }
 }
