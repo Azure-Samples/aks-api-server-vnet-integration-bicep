@@ -51,7 +51,8 @@ if [[ $private == 'true' ]]; then
     --namespace ingress-basic \
     --set controller.replicaCount=3 \
     --set controller.nodeSelector.\"kubernetes\.io/os\"=linux \
-    --set defaultBackend.nodeSelector.\"kubernetes\.io/os\"=linux"
+    --set defaultBackend.nodeSelector.\"kubernetes\.io/os\"=linux" \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
   
   az aks command invoke \
     --name $clusterName \
