@@ -1,4 +1,4 @@
-@description('Specifies the location of AKS cluster.')
+@description('Specifies the location of the AKS cluster.')
 param location string = resourceGroup().location
 
 @description('Specifies the name of the AKS cluster.')
@@ -272,6 +272,9 @@ param openServiceMeshEnabled bool = false
 
 @description('Specifies whether the Kubernetes Event-Driven Autoscaler (KEDA) add-on is enabled or not.')
 param kedaEnabled bool = false
+
+@description('Specifies whether the Vertical Pod Autoscaler is enabled or not.')
+param verticalPodAutoscalerEnabled bool = false
 
 @description('Specifies whether the aciConnectorLinux add-on is enabled or not.')
 param aciConnectorLinuxEnabled bool = false
@@ -726,6 +729,7 @@ module aksCluster 'aksCluster.bicep' = {
     httpApplicationRoutingEnabled: httpApplicationRoutingEnabled
     openServiceMeshEnabled: openServiceMeshEnabled
     kedaEnabled: kedaEnabled
+    verticalPodAutoscalerEnabled: verticalPodAutoscalerEnabled
     aciConnectorLinuxEnabled: aciConnectorLinuxEnabled
     azurePolicyEnabled: azurePolicyEnabled
     kubeDashboardEnabled: kubeDashboardEnabled

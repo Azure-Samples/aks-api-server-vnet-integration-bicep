@@ -280,6 +280,9 @@ param openServiceMeshEnabled bool = false
 @description('Specifies whether the Kubernetes Event-Driven Autoscaler (KEDA) add-on is enabled or not.')
 param kedaEnabled bool = false
 
+@description('Specifies whether the Vertical Pod Autoscaler is enabled or not.')
+param verticalPodAutoscalerEnabled bool = false
+
 @description('Specifies whether the aciConnectorLinux add-on is enabled or not.')
 param aciConnectorLinuxEnabled bool = false
 
@@ -543,6 +546,9 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2022-07-02-previ
     workloadAutoScalerProfile: {
       keda: {
         enabled: kedaEnabled
+      }
+      verticalPodAutoscaler: {
+        enabled: verticalPodAutoscalerEnabled
       }
     }
     aadProfile: {

@@ -70,7 +70,8 @@ if [[ $installExtensions == 1 ]]; then
     "PodSubnetPreview"
     "EnableOIDCIssuerPreview"
     "EnableWorkloadIdentityPreview"
-    "EnableImageCleanerPreview")
+    "EnableImageCleanerPreview"
+    "AKS-VPAPreview")
   ok=0
   registeringExtensions=()
   for aksExtension in ${aksExtensions[@]}; do

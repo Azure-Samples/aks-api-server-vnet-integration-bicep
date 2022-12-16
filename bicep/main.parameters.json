@@ -188,6 +188,9 @@
     "kedaEnabled": {
       "value": true
     },
+    "verticalPodAutoscalerEnabled":{
+      "value": true
+    },
     "systemAgentPoolKubeletDiskType": {
       "value": "OS"
     },
