@@ -425,7 +425,7 @@ resource apiServerSubnet 'Microsoft.Network/virtualNetworks/subnets@2021-08-01' 
   name: apiServerSubnetName
 }
 
-resource aksCluster 'Microsoft.ContainerService/managedClusters@2022-07-02-preview' = {
+resource aksCluster 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
   name: name
   location: location
   tags: tags
