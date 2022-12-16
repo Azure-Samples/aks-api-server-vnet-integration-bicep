@@ -548,7 +548,9 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2022-09-02-previ
         enabled: kedaEnabled
       }
       verticalPodAutoscaler: {
+        controlledValues: 'RequestsAndLimits'
         enabled: verticalPodAutoscalerEnabled
+        updateMode: 'Off'
       }
     }
     aadProfile: {
